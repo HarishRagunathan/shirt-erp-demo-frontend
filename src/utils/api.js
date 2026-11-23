@@ -1,4 +1,9 @@
-const base = import.meta.env.VITE_API_URL || "/api";
+const base = import.meta.env.VITE_API_URL?.trim().replace(/\/+$/, "");
+if (!base) {
+  throw new Error(
+    "Set VITE_API_URL in the frontend .env file and restart Vite.",
+  );
+}
 export async function api(path, options = {}) {
   const response = await fetch(base + path, {
     ...options,
